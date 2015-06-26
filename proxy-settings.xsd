@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+    <!-- https://stackoverflow.com/questions/23093575/xml-schema-element-with-attributes-containing-restricted-text-only -->
+    <xs:simpleType name="bypassString">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([\*\-\.\w]+;?)*"/> 
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="settings"> 
+      <xs:complexType> 
+          <xs:sequence> 
+              <xs:element name="type"> 
+                  <xs:simpleType> 
+                      <xs:restriction base="xs:integer"> 
+                          <xs:minInclusive value="1"/> 
+                          <xs:maxInclusive value="15"/> 
+                      </xs:restriction> 
+                  </xs:simpleType> 
+              </xs:element> 
+              <xs:element name="url" type="xs:anyURI" minOccurs="0"/> 
+              <xs:element name="proxy" minOccurs="0"> 
+                  <xs:simpleType> 
+                      <xs:restriction base="xs:string"> 
+                          <xs:pattern value="([\-\.\w]+:\d{2,5})?"/> 
+                      </xs:restriction> 
+                  </xs:simpleType> 
+              </xs:element> 
+              <xs:element name="bypass" minOccurs="0"> 
+                  <xs:complexType> 
+                      <xs:simpleContent> 
+                          <xs:extension base="bypassString"> 
+                              <xs:attribute name="local" type="xs:boolean" use="required"/> 
+                          </xs:extension> 
+                      </xs:simpleContent> 
+                  </xs:complexType> 
+              </xs:element> 
+          </xs:sequence> 
+      </xs:complexType> 
+  </xs:element> 
+</xs:schema>
